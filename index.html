@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aetheris — Moving Global Trade Forward</title>
+  <meta name="description"
+    content="Aetheris is a premium logistics and cargo shipping company connecting continents with precision, speed, and elegance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Aetheris</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how-we-work">Process</a></li>
+      <li><a href="#cta">About</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+    <a href="#cta" class="nav-cta">Get Started</a>
+    <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <div class="hero-scroll-wrapper" id="heroScrollWrapper">
+    <section class="hero" id="hero">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="hero-canvas-overlay"></div>
+
+      <!-- First content: bottom-left, visible at start -->
+      <div class="hero-content hero-content--first" id="heroFirst">
+        <h1 class="hero-title">Moving Global<br><em>Trade Forward</em></h1>
+      </div>
+
+      <!-- Second content: bottom-right, appears near end -->
+      <div class="hero-content hero-content--final" id="heroFinal">
+        <h1 class="hero-title">Precision at<br><em>Every Mile</em></h1>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ══════════════════ HOW WE WORK ══════════════════ -->
+  <section class="process-section" id="how-we-work">
+    <div class="process-grid-texture"></div>
+    <div class="process-vignette"></div>
+
+    <!-- Hanging Cables -->
+    <div class="cargo-cables" id="cargoCables">
+      <div class="cable cable-1"></div>
+      <div class="cable cable-2"></div>
+    </div>
+
+    <div class="process-header">
+      <span class="section-eyebrow reveal">How We Work</span>
+      <p class="process-intro reveal reveal-delay-1">Discover our intelligent logistics process designed to ensure
+        precision, efficiency, and seamless global delivery.</p>
+    </div>
+
+    <div class="process-visual-container">
+      <!-- SVG Connectors -->
+      <svg class="process-connectors" viewBox="0 0 1200 700">
+        <path class="connector-path" d="M 150 150 Q 400 150 600 300" />
+        <path class="connector-path" d="M 200 550 Q 400 550 600 400" />
+        <path class="connector-path" d="M 1000 100 Q 800 100 600 300" />
+        <path class="connector-path" d="M 1050 350 Q 850 350 600 350" />
+        <path class="connector-path" d="M 1000 600 Q 800 600 600 400" />
+
+        <!-- Animated Glow Paths -->
+        <path class="connector-glow" d="M 150 150 Q 400 150 600 300" />
+        <path class="connector-glow" d="M 200 550 Q 400 550 600 400" />
+        <path class="connector-glow" d="M 1000 100 Q 800 100 600 300" />
+        <path class="connector-glow" d="M 1050 350 Q 850 350 600 350" />
+        <path class="connector-glow" d="M 1000 600 Q 800 600 600 400" />
+      </svg>
+
+
+      <!-- Center Container -->
+      <div class="cargo-container-wrap" id="cargoContainer">
+        <div class="cargo-glow"></div>
+        <img src="assets/images/cargo.png" alt="Cargo Container" class="cargo-img" />
+        <div class="cargo-shadow"></div>
+      </div>
+
+      <!-- Workflow Steps -->
+      <!-- Step 01 -->
+      <div class="workflow-step step-1 reveal reveal-delay-1">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3 class="step-title">Order Placement</h3>
+          <p class="step-desc">Customers submit shipment requests with cargo and destination details.</p>
+        </div>
+      </div>
+
+      <!-- Step 02 -->
+      <div class="workflow-step step-2 reveal reveal-delay-2">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3 class="step-title">Route Planning</h3>
+          <p class="step-desc">AI-powered systems optimize global delivery routes in real time.</p>
+        </div>
+      </div>
+
+      <!-- Step 03 -->
+      <div class="workflow-step step-3 reveal reveal-delay-1">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3 class="step-title">Transportation</h3>
+          <p class="step-desc">Cargo moves through sea, air, and land logistics networks efficiently.</p>
+        </div>
+      </div>
+
+      <!-- Step 04 -->
+      <div class="workflow-step step-4 reveal reveal-delay-2">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3 class="step-title">Tracking & Monitoring</h3>
+          <p class="step-desc">Real-time tracking provides full shipment visibility and status updates.</p>
+        </div>
+      </div>
+
+      <!-- Step 05 -->
+      <div class="workflow-step step-5 reveal reveal-delay-3">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <h3 class="step-title">Delivery Confirmation</h3>
+          <p class="step-desc">Final delivery is verified with secure logistics confirmation systems.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Particles -->
+    <div class="process-particles" id="processParticles"></div>
+  </section>
+
+  <!-- ══════════════════ SERVICES (CINEMATIC CANVAS) ══════════════════ -->
+  <div class="services-scroll-wrapper" id="servicesScrollWrapper">
+    <section class="services-cinematic" id="services">
+      <canvas class="services-canvas" id="servicesCanvas"></canvas>
+      <div class="services-canvas-overlay"></div>
+      <div class="services-canvas-overlay-bottom"></div>
+
+      <!-- Section Header -->
+      <div class="services-header" id="servicesHeader">
+        <span class="services-eyebrow">Our Services</span>
+        <h2 class="services-title">What We <em>Deliver</em></h2>
+      </div>
+
+      <!-- Service Panels — overlaid on canvas -->
+      <div class="service-panels" id="servicePanels">
+        <div class="panel-col left-col">
+          <div class="service-panel panel-left" id="panelOcean">
+            <div class="panel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M2 20c1.5-1.5 3.5-2 5.5-2s4 .5 5.5 2c1.5-1.5 3.5-2 5.5-2s4 .5 5.5 2" />
+                <path d="M4 17l1.5-4.5h13L20 17" />
+                <path d="M6.5 12.5L8 8h8l1.5 4.5" />
+                <path d="M12 8V4" />
+              </svg>
+            </div>
+            <h3 class="panel-title">Ocean Freight</h3>
+            <p class="panel-desc">Global container shipping across major international sea routes with full port-to-port
+              coverage.</p>
+          </div>
+          <div class="service-panel panel-left" id="panelWarehouse">
+            <div class="panel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="8" width="18" height="13" rx="1" />
+                <path d="M3 8l9-5 9 5" />
+                <path d="M10 21v-5h4v5" />
+              </svg>
+            </div>
+            <h3 class="panel-title">Warehousing</h3>
+            <p class="panel-desc">Smart climate-controlled storage and automated inventory handling systems worldwide.
+            </p>
+          </div>
+        </div>
+
+        <div class="panel-col right-col">
+          <div class="service-panel panel-right" id="panelAir">
+            <div class="panel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path
+                  d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.7.5-1.1z" />
+              </svg>
+            </div>
+            <h3 class="panel-title">Air Cargo</h3>
+            <p class="panel-desc">Fast and secure international air freight with real-time delivery coordination.</p>
+          </div>
+          <div class="service-panel panel-right" id="panelTrack">
+            <div class="panel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 000 20 14.5 14.5 0 000-20" />
+                <path d="M2 12h20" />
+                <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.3" />
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+              </svg>
+            </div>
+            <h3 class="panel-title">Live Tracking</h3>
+            <p class="panel-desc">AI-powered shipment monitoring with real-time logistics visibility across the globe.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ══════════════════ CTA (CINEMATIC SCROLL) ══════════════════ -->
+  <div class="cta-scroll-wrapper" id="ctaScrollWrapper">
+    <section class="cta-cinematic" id="cta">
+      <canvas class="cta-canvas" id="ctaCanvas"></canvas>
+      <div class="cta-canvas-overlay-top"></div>
+      <div class="cta-canvas-overlay"></div>
+      <div class="cta-canvas-overlay-bottom"></div>
+
+      <div class="cta-content-right">
+        <div class="cta-text-wrap">
+          <span class="cta-eyebrow-new" id="ctaEyebrow">GLOBAL FREIGHT NETWORK</span>
+          <h2 class="cta-title-new" id="ctaTitle">Delivering Beyond <em>Borders</em></h2>
+          <p class="cta-sub-new" id="ctaSub">Built for businesses that move the world forward through intelligent global
+            logistics.</p>
+          <div class="cta-btns-new" id="ctaBtns">
+            <a href="#services" class="btn-primary">Start Shipping</a>
+            <a href="#footer" class="btn-ghost">Explore Network</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer id="footer">
+    <img src="assets/footer/Create_a_wide_cinematic_landscape_202605131736-Photoroom.png" alt="Footer Crown" class="footer-crown" />
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand-area">
+          <a href="#" class="footer-logo">AETHERIS</a>
+          <p class="footer-desc">Redefining global logistics through intelligent design and precision execution.
+            Connecting the world, one shipment at a time.</p>
+
+        </div>
+
+        <div class="footer-nav-grid">
+          <div class="footer-column">
+            <h4 class="footer-heading">Services</h4>
+            <ul class="footer-links">
+              <li><a href="#">Ocean Freight</a></li>
+              <li><a href="#">Air Cargo</a></li>
+              <li><a href="#">Warehousing</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-heading">Company</h4>
+            <ul class="footer-links">
+              <li><a href="#">Our Story</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="footer-separator"></div>
+
+      <div class="footer-bottom">
+        <div class="footer-legal">
+          <span class="copyright">© 2026 Aetheris. All Rights Reserved.</span>
+          <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+          </div>
+        </div>
+
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path
+                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
