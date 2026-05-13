@@ -1082,9 +1082,9 @@ footer {
   z-index: 100;
   /* Fully on top of CTA */
   padding: 10rem 0 0;
-  margin-top: -115vh;
+  margin-top: -100vh;
   /* Pulls footer up even further to slide over the sticky CTA section */
-  min-height: 115vh;
+  min-height: 100vh;
   /* Ensures it fully covers the viewport/CTA */
   display: flex;
   flex-direction: column;
@@ -1296,7 +1296,7 @@ footer::before {
 .footer-separator {
   height: 1px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05));
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .footer-bottom {
@@ -1377,7 +1377,7 @@ footer::before {
 
 @media (max-width: 768px) {
   footer {
-    padding: 6rem 0 3rem;
+    padding: 6rem 0 0;
   }
 
   .footer-nav-grid {
