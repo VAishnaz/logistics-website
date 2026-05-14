@@ -46,8 +46,13 @@ requestAnimationFrame(lenisRaf);
   /* ── DOM ── */
   const canvas = document.getElementById('heroCanvas');
   const wrapper = document.getElementById('heroScrollWrapper');
-  const heroFirst = document.getElementById('heroFirst');
-  const heroFinal = document.getElementById('heroFinal');
+  const heroBgText = document.getElementById('heroBgText');
+  const heroLines = [
+    document.getElementById('heroLine1'),
+    document.getElementById('heroLine2'),
+    document.getElementById('heroLine3'),
+    document.getElementById('heroExplore')
+  ];
   if (!canvas || !wrapper) return;
   const ctx = canvas.getContext('2d');
 
@@ -92,7 +97,44 @@ requestAnimationFrame(lenisRaf);
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    alignLuxuryContent();
     drawFrame();
+  }
+
+  /* ── Align luxury content, nav-logo, and nav-cta with BG text edges ── */
+  function alignLuxuryContent() {
+    const luxuryContent = document.querySelector('.hero-luxury-content');
+    const navLogo = document.querySelector('.nav-logo');
+    const navCta = document.querySelector('.nav-cta');
+    if (!heroBgText || !luxuryContent) return;
+
+    const firstSpan = heroBgText.querySelector('span');
+    const lastSpan = heroBgText.querySelector('span:last-child');
+    if (firstSpan) {
+      const rect = firstSpan.getBoundingClientRect();
+      const parentRect = heroBgText.offsetParent.getBoundingClientRect();
+      // Calculate position relative to parent with a subtle optical nudge to the right (+0.8vw)
+      const targetLeft = (rect.left - parentRect.left) + (window.innerWidth * 0.008);
+      luxuryContent.style.left = targetLeft + 'px';
+
+      // Align nav-logo left edge with hero-bg-text left edge
+      if (navLogo) {
+        const navPadLeft = window.innerWidth * 0.05; // 5vw nav padding
+        const logoOffset = rect.left - navPadLeft;
+        navLogo.style.transform = 'translateX(' + logoOffset + 'px)';
+      }
+    }
+
+    // Align nav-cta right edge with hero-bg-text right edge
+    if (lastSpan && navCta) {
+      const lastRect = lastSpan.getBoundingClientRect();
+      const lastPadRight = 17;
+      const heroTextRight = lastRect.right - lastPadRight;
+      const navPadRight = window.innerWidth * 0.05; // 5vw nav padding
+      const ctaCurrentRight = window.innerWidth - navPadRight;
+      const ctaOffset = heroTextRight - ctaCurrentRight;
+      navCta.style.setProperty('--cta-align-offset', ctaOffset + 'px');
+    }
   }
 
   /* ── Draw current frame to canvas (cover-fit) ── */
@@ -138,55 +180,31 @@ requestAnimationFrame(lenisRaf);
 
     drawFrame();
 
-    /* ── Cinematic hero text: scroll-driven fade in/out ── */
+    /* ── Cinematic hero text: scroll-driven parallax & fade ── */
     const p = lerpedProgress;
 
-    if (heroFirst) {
-      let firstOpacity, firstY;
-      if (p < 0.05) {
-        firstOpacity = 0;
-        firstY = 30;
-      } else if (p <= 0.15) {
-        // Fade in from 0.05 to 0.15
-        const t = (p - 0.05) / 0.10;
-        const ease = 1 - Math.pow(1 - t, 3);
-        firstOpacity = ease;
-        firstY = (1 - ease) * 30;
-      } else if (p <= 0.30) {
-        // Stay visible from 0.15 to 0.30
-        firstOpacity = 1;
-        firstY = 0;
-      } else if (p <= 0.45) {
-        // Fade out from 0.30 to 0.45
-        const t = (p - 0.30) / 0.15;
-        const ease = t * t;
-        firstOpacity = 1 - ease;
-        firstY = -ease * 30; // Float upwards on fade out
-      } else {
-        firstOpacity = 0;
-        firstY = -30;
-      }
-      heroFirst.style.opacity = firstOpacity;
-      heroFirst.style.transform = `translateY(${firstY}px)`;
+    if (heroBgText) {
+      // Background word "VOYAGE" fades out as we scroll (from 0.6 to 0)
+      const bgOpacity = 0.6 * (1 - Math.min(1, p / 0.6));
+      heroBgText.style.opacity = bgOpacity;
     }
 
-    if (heroFinal) {
-      let finalOpacity, finalY;
-      if (p < 0.70) {
-        finalOpacity = 0;
-        finalY = 30;
-      } else if (p <= 0.85) {
-        const t = (p - 0.70) / 0.15;
-        const ease = 1 - Math.pow(1 - t, 3);
-        finalOpacity = ease;
-        finalY = (1 - ease) * 30;
-      } else {
-        finalOpacity = 1;
-        finalY = 0;
+    heroLines.forEach((line, i) => {
+      if (line) {
+        // Uniform parallax upward for the whole block to prevent congestion
+        const speed = 100;
+        const yPos = -p * speed;
+
+        // Fade out at the very end of the hero section scroll
+        let opacity = 1;
+        if (p > 0.8) {
+          opacity = 1 - ((p - 0.8) / 0.2);
+        }
+
+        line.style.transform = `translateY(${yPos}px)`;
+        line.style.opacity = opacity;
       }
-      heroFinal.style.opacity = finalOpacity;
-      heroFinal.style.transform = `translateY(${finalY}px)`;
-    }
+    });
 
     rafId = requestAnimationFrame(tick);
   }
@@ -209,10 +227,15 @@ requestAnimationFrame(lenisRaf);
   resizeCanvas();
   updateProgress();
 
-  if (heroFirst) {
-    heroFirst.style.opacity = '0';
-    heroFirst.style.transform = 'translateY(30px)';
+  if (heroBgText) {
+    heroBgText.style.opacity = '0.6';
   }
+  heroLines.forEach(line => {
+    if (line) {
+      line.style.opacity = '1';
+      line.style.transform = 'translateY(0px)';
+    }
+  });
 
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -389,36 +412,39 @@ revealEls.forEach(el => revealObs.observe(el));
     /* ── Scroll-driven UI animations ── */
     const p = lerpedProgress;
 
-    // Header: fade in from 0.02–0.15, stay until 0.35, fade out 0.35–0.50
+    // Header: fade in early, fade out fast to clear stage for panels
     if (header) {
       let hOpacity, hY;
-      if (p < 0.02) {
-        hOpacity = 0; hY = 30;
-      } else if (p <= 0.15) {
-        const t = easeOutCubic((p - 0.02) / 0.13);
-        hOpacity = t; hY = (1 - t) * 30;
-      } else if (p <= 0.35) {
+      if (p < 0.01) {
+        hOpacity = 0; hY = 20;
+      } else if (p <= 0.10) {
+        const t = easeOutCubic((p - 0.01) / 0.09);
+        hOpacity = t; hY = (1 - t) * 20;
+      } else if (p <= 0.18) {
         hOpacity = 1; hY = 0;
-      } else if (p <= 0.50) {
-        const t = easeInCubic((p - 0.35) / 0.15);
-        hOpacity = 1 - t; hY = -t * 25;
+      } else if (p <= 0.25) {
+        const t = easeInCubic((p - 0.18) / 0.07);
+        hOpacity = 1 - t; hY = -t * 20;
       } else {
-        hOpacity = 0; hY = -25;
+        hOpacity = 0; hY = -20;
       }
       header.style.opacity = hOpacity;
       header.style.transform = `translateX(-50%) translateY(${hY}px)`;
     }
 
-    // Left panels: slide in gradually across 0.25–0.75 range, staggered
+    // Left panels: Sequential Order 1 (Top Left) and 3 (Bottom Left)
     panelsLeft.forEach((panel, i) => {
-      const start = 0.25 + i * 0.15;
-      const end = start + 0.30;
+      // Card 1 (Ocean) starts at 0.15, Card 3 (Warehouse) starts at 0.55
+      const start = 0.15 + (i * 2) * 0.20;
+      const duration = 0.20; // Slower, more elegant reveal
+      const end = start + duration;
+
       let pOpacity, pX;
       if (p < start) {
-        pOpacity = 0; pX = -120;
+        pOpacity = 0; pX = -80;
       } else if (p <= end) {
-        const t = easeOutCubic((p - start) / (end - start));
-        pOpacity = t; pX = (1 - t) * -120;
+        const t = easeOutCubic((p - start) / duration);
+        pOpacity = t; pX = (1 - t) * -80;
       } else {
         pOpacity = 1; pX = 0;
       }
@@ -426,16 +452,19 @@ revealEls.forEach(el => revealObs.observe(el));
       panel.style.transform = `translateX(${pX}px)`;
     });
 
-    // Right panels: slide in gradually across 0.25–0.75 range, staggered
+    // Right panels: Sequential Order 2 (Top Right) and 4 (Bottom Right)
     panelsRight.forEach((panel, i) => {
-      const start = 0.25 + i * 0.15;
-      const end = start + 0.30;
+      // Card 2 (Air) starts at 0.35, Card 4 (Tracking) starts at 0.75
+      const start = 0.15 + (i * 2 + 1) * 0.20;
+      const duration = 0.20; // Slower, more elegant reveal
+      const end = start + duration;
+
       let pOpacity, pX;
       if (p < start) {
-        pOpacity = 0; pX = 120;
+        pOpacity = 0; pX = 80;
       } else if (p <= end) {
-        const t = easeOutCubic((p - start) / (end - start));
-        pOpacity = t; pX = (1 - t) * 120;
+        const t = easeOutCubic((p - start) / duration);
+        pOpacity = t; pX = (1 - t) * 80;
       } else {
         pOpacity = 1; pX = 0;
       }
@@ -771,8 +800,8 @@ if (!document.getElementById('mapFloatKF')) {
   }
 
   function drawFrame() {
-    // Clamp animation to finish at 0.6 progress, so it's static during settle and glide
-    const animationProgress = Math.min(1, lerpedProgress / 0.6);
+    // Clamp animation to finish at 0.85 progress, so it's static during a short settle
+    const animationProgress = Math.min(1, lerpedProgress / 0.85);
     const frameIndex = Math.min(frameCount - 1, Math.floor(animationProgress * frameCount));
     const img = images[frameIndex];
     if (!img || !img.complete) return;
@@ -800,12 +829,12 @@ if (!document.getElementById('mapFloatKF')) {
 
     const p = lerpedProgress;
 
-    // Content reveal timing: eyebrow(0.1), title(0.2), sub(0.35), btns(0.5)
-    // Adjusted to finish by 0.6 for a long settle time before glide
+    // Content reveal timing: eyebrow(0.1), title(0.25), sub(0.45), btns(0.65)
+    // Adjusted to finish by 0.85 for a balanced scroll experience
     updateEl(eyebrow, p, 0.1, 0.25);
-    updateEl(title, p, 0.25, 0.4);
-    updateEl(sub, p, 0.4, 0.55);
-    updateEl(btns, p, 0.55, 0.6);
+    updateEl(title, p, 0.25, 0.45);
+    updateEl(sub, p, 0.45, 0.65);
+    updateEl(btns, p, 0.65, 0.8);
 
     rafId = requestAnimationFrame(tick);
   }
@@ -846,3 +875,14 @@ if (!document.getElementById('mapFloatKF')) {
   rafId = requestAnimationFrame(tick);
 
 })();
+
+/* ── Liquid Glass Interaction ── */
+document.querySelectorAll('.service-panel').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mouse-x', `${x}%`);
+    card.style.setProperty('--mouse-y', `${y}%`);
+  });
+});
