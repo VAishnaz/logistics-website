@@ -318,8 +318,7 @@ revealEls.forEach(el => revealObs.observe(el));
   const canvas = document.getElementById('servicesCanvas');
   const wrapper = document.getElementById('servicesScrollWrapper');
   const header = document.getElementById('servicesHeader');
-  const panelsLeft = document.querySelectorAll('.panel-left');
-  const panelsRight = document.querySelectorAll('.panel-right');
+  const serviceItems = document.querySelectorAll('.service-item');
   if (!canvas || !wrapper) return;
   const ctx = canvas.getContext('2d');
 
@@ -432,44 +431,24 @@ revealEls.forEach(el => revealObs.observe(el));
       header.style.transform = `translateX(-50%) translateY(${hY}px)`;
     }
 
-    // Left panels: Sequential Order 1 (Top Left) and 3 (Bottom Left)
-    panelsLeft.forEach((panel, i) => {
-      // Card 1 (Ocean) starts at 0.15, Card 3 (Warehouse) starts at 0.55
-      const start = 0.15 + (i * 2) * 0.20;
-      const duration = 0.20; // Slower, more elegant reveal
+    // Service items: sequential stagger — each slides up from below, one after the other
+    serviceItems.forEach((item, i) => {
+      // Evenly spread across p 0.15 → 0.95, each item takes 0.18 of range
+      const start = 0.15 + i * 0.18;
+      const duration = 0.20;
       const end = start + duration;
 
-      let pOpacity, pX;
+      let iOpacity, iY;
       if (p < start) {
-        pOpacity = 0; pX = -80;
+        iOpacity = 0; iY = 40;
       } else if (p <= end) {
         const t = easeOutCubic((p - start) / duration);
-        pOpacity = t; pX = (1 - t) * -80;
+        iOpacity = t; iY = (1 - t) * 40;
       } else {
-        pOpacity = 1; pX = 0;
+        iOpacity = 1; iY = 0;
       }
-      panel.style.opacity = pOpacity;
-      panel.style.transform = `translateX(${pX}px)`;
-    });
-
-    // Right panels: Sequential Order 2 (Top Right) and 4 (Bottom Right)
-    panelsRight.forEach((panel, i) => {
-      // Card 2 (Air) starts at 0.35, Card 4 (Tracking) starts at 0.75
-      const start = 0.15 + (i * 2 + 1) * 0.20;
-      const duration = 0.20; // Slower, more elegant reveal
-      const end = start + duration;
-
-      let pOpacity, pX;
-      if (p < start) {
-        pOpacity = 0; pX = 80;
-      } else if (p <= end) {
-        const t = easeOutCubic((p - start) / duration);
-        pOpacity = t; pX = (1 - t) * 80;
-      } else {
-        pOpacity = 1; pX = 0;
-      }
-      panel.style.opacity = pOpacity;
-      panel.style.transform = `translateX(${pX}px)`;
+      item.style.opacity = iOpacity;
+      item.style.transform = `translateY(${iY}px)`;
     });
 
     rafId = requestAnimationFrame(tick);
