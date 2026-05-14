@@ -1443,7 +1443,7 @@ footer {
 
 /* ── PROCESS SECTION (How We Work) ── */
 .process-section {
-  padding: 6rem 5vw 5rem;
+  padding: 3rem 5vw 5rem;
   background: radial-gradient(circle at center, #0e2d4a 0%, var(--bg-deep) 100%);
   position: relative;
   overflow: hidden;
@@ -1502,7 +1502,7 @@ footer {
 .process-header {
   position: relative;
   z-index: 10;
-  text-align: left;
+  text-align: center;
   width: 100%;
   max-width: 1400px;
   margin-bottom: 2.5rem;
@@ -1510,7 +1510,7 @@ footer {
 
 .process-header .section-eyebrow {
   display: inline-block;
-  font-size: 1.6rem;
+  font-size: 2.4rem;
   font-weight: 900;
   text-transform: uppercase;
   color: var(--ocean-400);
@@ -1519,9 +1519,10 @@ footer {
 }
 
 .process-header .process-intro {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.6);
   max-width: 480px;
+  margin: 0 auto;
   line-height: 1.6;
   font-weight: 500;
 }

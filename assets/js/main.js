@@ -568,7 +568,7 @@ if (!document.getElementById('mapFloatKF')) {
 })();
 
 /* ═══════════════════════════════════════════
-    10. PROCESS SECTION — Cinematic Cargo Drop & Motion
+    10. PROCESS SECTION — Scroll-Scrubbed Cargo Drop & Motion
 ═══════════════════════════════════════════ */
 (function initProcessSection() {
   gsap.registerPlugin(ScrollTrigger);
@@ -582,69 +582,52 @@ if (!document.getElementById('mapFloatKF')) {
   if (!section || !cables || !container) return;
 
   // 1. Initial State: Hidden high above
-  gsap.set([cables, container], { y: -1200, opacity: 0 });
+  gsap.set([cables, container], { y: -900, opacity: 0 });
   gsap.set(shadow, { scale: 0.2, opacity: 0 });
 
-  // 2. The "Cool" Dropping Animation
-  // Triggered whenever the user enters the section from top or bottom
+  // Track ambient tweens so we can kill them when the user scrolls back
   let ambientTweens = [];
+  let ambientStarted = false;
 
-  const dropTL = gsap.timeline({
+  // 2. Scroll-Scrubbed Drop — moves exactly at the user's scroll pace
+  //    We widen the start/end points and increase scrub so it drops slower.
+  gsap.timeline({
     scrollTrigger: {
       trigger: section,
-      start: "top 70%",
-      end: "bottom 30%",
-      toggleActions: "play none none reset", // Plays on enter, resets on leave back
-      onEnter: () => dropTL.play(),
-      onEnterBack: () => {
-        // Reset state before playing again when coming from below
-        gsap.set([cables, container], { y: -1200, opacity: 0 });
-        gsap.set(shadow, { scale: 0.2, opacity: 0 });
-        dropTL.restart();
-      },
+      start: "top 95%",   // begins almost as soon as section appears
+      end: "center center", // completes over a much longer scroll distance
+      scrub: 1.5,         // higher scrub smoothing for a slower, heavier feel
       onLeave: () => {
-        // Optionally reset when leaving downwards so it can drop again if scrolling up
-        gsap.set([cables, container], { y: -1200, opacity: 0 });
-        ambientTweens.forEach(t => t.kill());
-        ambientTweens = [];
+        // Drop is fully complete — start the ambient idle motion
+        if (!ambientStarted) {
+          ambientStarted = true;
+          startAmbient();
+        }
+      },
+      onEnterBack: () => {
+        // User scrolled back up — kill ambient so it doesn't fight scrub
+        killAmbient();
+        ambientStarted = false;
       },
       onLeaveBack: () => {
-        ambientTweens.forEach(t => t.kill());
-        ambientTweens = [];
+        killAmbient();
+        ambientStarted = false;
       }
     }
-  });
-
-  dropTL.to([cables, container], {
+  })
+  .to([cables, container], {
     y: 0,
     opacity: 1,
-    duration: 1.8,
-    ease: "expo.out",
-    onStart: () => {
-      // Subtle sound effect logic could go here
-    }
-  })
-    .to(shadow, {
-      opacity: 0.4,
-      scale: 1,
-      duration: 1.2,
-      ease: "power2.out"
-    }, "-=1.2")
-    .to([cables, container], {
-      y: 15,
-      duration: 0.8,
-      ease: "power1.inOut"
-    })
-    .to([cables, container], {
-      y: 0,
-      duration: 1.2,
-      ease: "back.out(2)" // Small bounce back to neutral
-    }, "-=0.2");
+    ease: "power1.out"   // gentler easing so it doesn't rush in at the start
+  }, 0)
+  .to(shadow, {
+    opacity: 0.4,
+    scale: 1,
+    ease: "power1.out"
+  }, 0);   // shadow grows in sync with the drop
 
-  // 3. Ambient Floating & Swinging (starts after drop)
-  dropTL.add(() => {
-    // Clear any existing just in case
-    ambientTweens.forEach(t => t.kill());
+  // 3. Ambient Floating & Swinging (starts after the scrubbed drop is done)
+  function startAmbient() {
     ambientTweens = [];
 
     // Continuous Float
@@ -683,7 +666,12 @@ if (!document.getElementById('mapFloatKF')) {
       repeat: -1,
       yoyo: true
     }));
-  });
+  }
+
+  function killAmbient() {
+    ambientTweens.forEach(t => t.kill());
+    ambientTweens = [];
+  }
 
   // 4. Parallax Scroll Effect for Steps & Depth
   steps.forEach((step, i) => {
